@@ -1,5 +1,19 @@
 <network connections='1'>
   <name>{{ item.name }}</name>
   <forward mode='{{ item.mode }}'/>
+  {% if item.bridge is defined %}
   <bridge name='{{ item.bridge }}'/>
+  {% endif %}
+  {% if item.mac_address is defined %}
+  <mac address='{{ item.mac_address }}'/>
+  {% endif %}
+  {% if item.ip is defined %}
+  <ip address='{{ item.ip.address }}' netmask='{{ item.ip.netmask }}'>
+    {% if item.ip.dhcp_range is defined %}
+    <dhcp>
+      <range start='{{ item.ip.dhcp_range.start }}' end='{{ item.ip.dhcp_range.end }}'/>
+    </dhcp>
+    {% endif %}
+  </ip>
+  {% endif %}
 </network>
