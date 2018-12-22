@@ -4,14 +4,21 @@
   {% if item.bridge is defined %}
   <bridge name='{{ item.bridge }}'/>
   {% endif %}
-  {% if item.mac_address is defined %}
-  <mac address='{{ item.mac_address }}'/>
+  {% if item.mac is defined %}
+  <mac address='{{ item.mac }}'/>
   {% endif %}
   {% if item.ip is defined %}
   <ip address='{{ item.ip.address }}' netmask='{{ item.ip.netmask }}'>
-    {% if item.ip.dhcp_range is defined %}
+    {% if item.ip.dhcp is defined %}
     <dhcp>
-      <range start='{{ item.ip.dhcp_range.start }}' end='{{ item.ip.dhcp_range.end }}'/>
+      {% if item.ip.dhcp.range is defined %}
+      <range start='{{ item.ip.dhcp.range.start }}' end='{{ item.ip.dhcp.range.end }}'/>
+      {% endif %}
+      {% if item.ip.dhcp.hosts is defined %}
+      {%  for host in item.ip.dhcp.hosts %}
+      <host mac='{{ host.mac }}' name='{{ host.name }}' ip='{{ host.ip }}' />
+      {%  endfor %}
+      {% endif %}
     </dhcp>
     {% endif %}
   </ip>
