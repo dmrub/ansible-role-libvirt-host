@@ -1,6 +1,6 @@
 <network connections='1'>
   <name>{{ item.name }}</name>
-  <forward mode='{{ item.mode }}'/>
+  <forward mode='{{ item.mode }}' {% if item.dev is defined %}dev='{{ item.dev }}'{% endif %}/>
   {% if item.bridge is defined %}
   <bridge name='{{ item.bridge }}'/>
   {% endif %}
