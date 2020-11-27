@@ -1,13 +1,15 @@
 <network connections='1'>
   <name>{{ item.name }}</name>
+  {% if not ((item.mode|default('isolated')) in ['isolated',''])  %}
   <forward mode='{{ item.mode }}' {% if item.dev is defined %}dev='{{ item.dev }}'{% endif %}/>
+  {% endif %}
   {% if item.bridge is defined %}
   <bridge name='{{ item.bridge }}'/>
   {% endif %}
   {% if item.mac is defined %}
   <mac address='{{ item.mac }}'/>
   {% endif %}
-  {% if item.mode == 'route' or item.mode == 'nat' %}
+  {% if (item.mode|default('isolated')) in ['route', 'nat', 'isolated',''] %}
   <domain name='{{ item.domain|default(item.name) }}'/>
   {% if item.ip is defined and item.netmask is defined %}
   <ip address='{{ item.ip }}' netmask='{{ item.netmask }}'>
